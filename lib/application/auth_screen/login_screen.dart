@@ -29,6 +29,10 @@ class LoginScreen extends StatelessWidget {
                     state.errorMessage ?? 'Login Failed. Please try again.'),
               ),
             );
+          } else if (state.isLoading) {
+            const Center(
+              child: CircularProgressIndicator(),
+            );
           }
         },
         child: Padding(

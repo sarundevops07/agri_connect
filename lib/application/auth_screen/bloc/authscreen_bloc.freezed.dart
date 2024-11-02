@@ -524,6 +524,7 @@ abstract class SignInWithGoogle implements AuthscreenEvent {
 /// @nodoc
 mixin _$AuthscreenState {
   bool get loggedIn => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
   bool get loginError => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
   UserModel? get user => throw _privateConstructorUsedError;
@@ -542,7 +543,11 @@ abstract class $AuthscreenStateCopyWith<$Res> {
       _$AuthscreenStateCopyWithImpl<$Res, AuthscreenState>;
   @useResult
   $Res call(
-      {bool loggedIn, bool loginError, String? errorMessage, UserModel? user});
+      {bool loggedIn,
+      bool isLoading,
+      bool loginError,
+      String? errorMessage,
+      UserModel? user});
 }
 
 /// @nodoc
@@ -561,6 +566,7 @@ class _$AuthscreenStateCopyWithImpl<$Res, $Val extends AuthscreenState>
   @override
   $Res call({
     Object? loggedIn = null,
+    Object? isLoading = null,
     Object? loginError = null,
     Object? errorMessage = freezed,
     Object? user = freezed,
@@ -569,6 +575,10 @@ class _$AuthscreenStateCopyWithImpl<$Res, $Val extends AuthscreenState>
       loggedIn: null == loggedIn
           ? _value.loggedIn
           : loggedIn // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       loginError: null == loginError
           ? _value.loginError
@@ -595,7 +605,11 @@ abstract class _$$InitialImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool loggedIn, bool loginError, String? errorMessage, UserModel? user});
+      {bool loggedIn,
+      bool isLoading,
+      bool loginError,
+      String? errorMessage,
+      UserModel? user});
 }
 
 /// @nodoc
@@ -612,6 +626,7 @@ class __$$InitialImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? loggedIn = null,
+    Object? isLoading = null,
     Object? loginError = null,
     Object? errorMessage = freezed,
     Object? user = freezed,
@@ -620,6 +635,10 @@ class __$$InitialImplCopyWithImpl<$Res>
       loggedIn: null == loggedIn
           ? _value.loggedIn
           : loggedIn // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       loginError: null == loginError
           ? _value.loginError
@@ -642,12 +661,15 @@ class __$$InitialImplCopyWithImpl<$Res>
 class _$InitialImpl implements _Initial {
   const _$InitialImpl(
       {required this.loggedIn,
+      required this.isLoading,
       required this.loginError,
       required this.errorMessage,
       required this.user});
 
   @override
   final bool loggedIn;
+  @override
+  final bool isLoading;
   @override
   final bool loginError;
   @override
@@ -657,7 +679,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'AuthscreenState(loggedIn: $loggedIn, loginError: $loginError, errorMessage: $errorMessage, user: $user)';
+    return 'AuthscreenState(loggedIn: $loggedIn, isLoading: $isLoading, loginError: $loginError, errorMessage: $errorMessage, user: $user)';
   }
 
   @override
@@ -667,6 +689,8 @@ class _$InitialImpl implements _Initial {
             other is _$InitialImpl &&
             (identical(other.loggedIn, loggedIn) ||
                 other.loggedIn == loggedIn) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
             (identical(other.loginError, loginError) ||
                 other.loginError == loginError) &&
             (identical(other.errorMessage, errorMessage) ||
@@ -675,8 +699,8 @@ class _$InitialImpl implements _Initial {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, loggedIn, loginError, errorMessage, user);
+  int get hashCode => Object.hash(
+      runtimeType, loggedIn, isLoading, loginError, errorMessage, user);
 
   /// Create a copy of AuthscreenState
   /// with the given fields replaced by the non-null parameter values.
@@ -690,12 +714,15 @@ class _$InitialImpl implements _Initial {
 abstract class _Initial implements AuthscreenState {
   const factory _Initial(
       {required final bool loggedIn,
+      required final bool isLoading,
       required final bool loginError,
       required final String? errorMessage,
       required final UserModel? user}) = _$InitialImpl;
 
   @override
   bool get loggedIn;
+  @override
+  bool get isLoading;
   @override
   bool get loginError;
   @override

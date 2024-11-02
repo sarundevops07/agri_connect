@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:agri_connect/application/auth_screen/bloc/authscreen_bloc.dart';
 import 'package:agri_connect/config/routes.dart';
 import 'package:agri_connect/config/routes_name.dart';
@@ -29,6 +27,10 @@ class SignUpScreen extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                   content: Text('Sign Up Failed. Please try again.')),
+            );
+          } else if (state.isLoading) {
+            const Center(
+              child: CircularProgressIndicator(),
             );
           }
         },

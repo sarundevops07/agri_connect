@@ -17,7 +17,11 @@ class AuthscreenBloc extends Bloc<AuthscreenEvent, AuthscreenState> {
     // Sign Up Handler
     on<SignUp>((event, emit) async {
       emit(const AuthscreenState(
-          loggedIn: false, loginError: false, errorMessage: null, user: null));
+          loggedIn: false,
+          loginError: false,
+          errorMessage: null,
+          user: null,
+          isLoading: true));
       final result = await authScreensRepo.signUpWithEmail(
         event.name,
         event.email,
@@ -28,14 +32,19 @@ class AuthscreenBloc extends Bloc<AuthscreenEvent, AuthscreenState> {
           emit(state.copyWith(loginError: true, errorMessage: failure.message));
         },
         (success) {
-          emit(state.copyWith(loggedIn: true, user: success));
+          emit(state.copyWith(loggedIn: true, user: success, isLoading: false));
         },
       );
     });
 
     // Login with Email Handler
     on<Login>((event, emit) async {
-      emit(state.copyWith(loggedIn: false, loginError: false, user: null));
+      emit(const AuthscreenState(
+          loggedIn: false,
+          loginError: false,
+          errorMessage: null,
+          user: null,
+          isLoading: true));
       final result =
           await authScreensRepo.loginWithEmail(event.email, event.password);
       log("log from bloc $result");
@@ -44,21 +53,26 @@ class AuthscreenBloc extends Bloc<AuthscreenEvent, AuthscreenState> {
           emit(state.copyWith(loginError: true, errorMessage: failure.message));
         },
         (success) {
-          emit(state.copyWith(loggedIn: true, user: success));
+          emit(state.copyWith(loggedIn: true, user: success, isLoading: false));
         },
       );
     });
 
     // Sign In with Google Handler
     on<SignInWithGoogle>((event, emit) async {
-      emit(state.copyWith(loggedIn: false, loginError: false, user: null));
+      emit(const AuthscreenState(
+          loggedIn: false,
+          loginError: false,
+          errorMessage: null,
+          user: null,
+          isLoading: true));
       final result = await authScreensRepo.signInWithGoogle();
       result.fold(
         (failure) {
           emit(state.copyWith(loginError: true, errorMessage: failure.message));
         },
         (success) {
-          emit(state.copyWith(loggedIn: true, user: success));
+          emit(state.copyWith(loggedIn: true, user: success, isLoading: false));
         },
       );
     });
