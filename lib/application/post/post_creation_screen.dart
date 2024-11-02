@@ -32,17 +32,19 @@ class PostCreationScreenState extends State<PostCreationScreen> {
     });
   }
 
-  // Future<String> _uploadImage(File file) async {
-  //   final ref = FirebaseStorage.instance
-  //       .ref()
-  //       .child('post_images/${file.path.split('/').last}');
+  // Future<String> _uploadImage(XFile file) async {
+  //   final ref =
+  //       FirebaseStorage.instance.ref().child('post_images/${file.name}');
 
-  //   uploadTask = ref.putFile(file);
+  //   uploadTask = ref.putFile(File(file.path));
   //   log("task not done");
-  //   final snapshot = await uploadTask;
+  //   final snapshot = await uploadTask!.whenComplete(() => null);
   //   log("task done");
-  //   final url = await snapshot!.ref.getDownloadURL();
-  //   log(url);
+  //   final url = await snapshot.ref.getDownloadURL();
+  //   setState(() {
+  //     uploadTask = null;
+  //   });
+  //   log("url:$url");
   //   return url;
   // }
 
@@ -53,40 +55,38 @@ class PostCreationScreenState extends State<PostCreationScreen> {
         _selectedImages == null) {
       return;
     }
-
     final List<String> imageUrls = [
       "https://graphicsfamily.com/wp-content/uploads/edd/2022/08/Digital-marketing-expert-social-media-post-design-999x999.png",
       "https://graphicsfamily.com/wp-content/uploads/edd/2023/01/Free-Photographer-Social-Media-Post-Design-Template-999x999.jpg",
       "https://img.freepik.com/free-psd/digital-marketing-agency-corporate-social-media-post-template_120329-2030.jpg?t=st=1730554270~exp=1730557870~hmac=5a2e0ed3cc64cd9236ca778d034892ccba04d24f71cb248e0de2e1f3846f42d7&w=826"
     ];
+    // final List<String> imageUrls = [];
 
-    for (final XFile image in _selectedImages!) {
-      // Compressing images
-      final compressedImage = await FlutterImageCompress.compressAndGetFile(
-        image.path,
-        '${image.path}_compressed.jpg',
-        quality: 50,
-      );
-      if (compressedImage != null) {
-        // Convert XFile to File
-        final File fileImage = File(compressedImage.path);
-        // final imageUrl = await _uploadImage(fileImage);
+    // for (final XFile image in _selectedImages!) {
+    //   // Compressing images
+    //   final compressedImage = await FlutterImageCompress.compressAndGetFile(
+    //     image.path,
+    //     '${image.path}_compressed.jpg',
+    //     quality: 50,
+    //   );
+    //   if (compressedImage != null) {
 
-        // imageUrls.add(imageUrl);
-      }
-    }
+    //     final imageUrl = await _uploadImage(compressedImage);
+
+    //     imageUrls.add(imageUrl);
+    //   }
+    // }
 
     final post = Post(
-      id: FirebaseFirestore.instance.collection('posts').doc().id,
-      userId: userId,
-      userName: userName,
-      text: _textController.text,
-      imageUrls: imageUrls,
-    );
+        id: FirebaseFirestore.instance.collection('posts').doc().id,
+        userId: userId,
+        userName: userName,
+        text: _textController.text,
+        imageUrls: imageUrls,
+        timestamp: DateTime.now());
     log("before calling bloc event");
     context.read<PostcreationBloc>().add(PostcreationEvent.createPost(post));
     goRouter.pop();
-    // Navigate back after post creation
   }
 
   @override
@@ -129,17 +129,52 @@ class PostCreationScreenState extends State<PostCreationScreen> {
             BlocBuilder<AuthscreenBloc, AuthscreenState>(
               builder: (context, state) {
                 final userName = state.user?.name;
-                return ElevatedButton(
-                  onPressed: () {
-                    _createPost(userName ?? "Guest User");
-                  },
-                  child: const Text('Create Post'),
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: uploadTask != null
+                      ? buildProgress()
+                      : ElevatedButton(
+                          onPressed: () {
+                            _createPost(userName ?? "Guest User");
+                          },
+                          child: const Text('Create Post'),
+                        ),
                 );
               },
             ),
           ],
         ),
       ),
+    );
+  }
+
+  buildProgress() {
+    return StreamBuilder(
+      stream: uploadTask?.snapshotEvents,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final data = snapshot.data!;
+          double progress = data.bytesTransferred / data.totalBytes;
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              const SizedBox(
+                height: 100,
+                width: 100,
+                child: CircularProgressIndicator(
+                  strokeWidth: 8,
+                  value: 2,
+                  color: Colors.green,
+                  backgroundColor: Colors.grey,
+                ),
+              ),
+              Text("${(progress * 100).roundToDouble()}%")
+            ],
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
     );
   }
 }
