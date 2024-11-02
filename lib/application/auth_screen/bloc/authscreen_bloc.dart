@@ -16,9 +16,13 @@ class AuthscreenBloc extends Bloc<AuthscreenEvent, AuthscreenState> {
   AuthscreenBloc(this.authScreensRepo) : super(AuthscreenState.initial()) {
     // Sign Up Handler
     on<SignUp>((event, emit) async {
-      emit(state.copyWith(loggedIn: false, loginError: false, user: null));
+      emit(const AuthscreenState(
+          loggedIn: false, loginError: false, errorMessage: null, user: null));
       final result = await authScreensRepo.signUpWithEmail(
-          event.email, event.password, event.name);
+        event.name,
+        event.email,
+        event.password,
+      );
       result.fold(
         (failure) {
           emit(state.copyWith(loginError: true, errorMessage: failure.message));

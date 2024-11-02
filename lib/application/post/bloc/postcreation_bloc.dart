@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:agri_connect/domain/core/failures/main_failure.dart';
 import 'package:agri_connect/domain/model/post.dart';
 import 'package:agri_connect/domain/repository/post/post_repo.dart';
@@ -30,6 +32,7 @@ class PostcreationBloc extends Bloc<PostcreationEvent, PostcreationState> {
       );
     });
     on<GetPosts>((event, emit) async {
+      log("message from get posts Bloc");
       emit(const PostcreationState(
           errorMessage: null, posts: [], postCreated: false));
 

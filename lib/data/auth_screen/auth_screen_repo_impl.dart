@@ -24,9 +24,10 @@ class AuthScreenRepoImpl implements AuthScreenRepo {
 
       final user = userCredential.user;
       if (user != null) {
-        // Set the display name for the user
         await user.updateProfile(displayName: name);
-        return Right(UserModel(id: user.uid, email: user.email, name: name));
+        return Right(
+          UserModel(id: user.uid, email: user.email, name: user.displayName),
+        );
       } else {
         return Left(MainFailures.authFailure());
       }

@@ -1,4 +1,6 @@
+import 'dart:developer';
 import 'dart:io';
+import 'package:agri_connect/application/auth_screen/bloc/authscreen_bloc.dart';
 import 'package:agri_connect/application/post/bloc/postcreation_bloc.dart';
 import 'package:agri_connect/config/routes.dart';
 import 'package:agri_connect/domain/model/post.dart';
@@ -20,6 +22,7 @@ class PostCreationScreen extends StatefulWidget {
 class PostCreationScreenState extends State<PostCreationScreen> {
   final TextEditingController _textController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
+  UploadTask? uploadTask;
   List<XFile>? _selectedImages;
 
   Future<void> _pickImages() async {
@@ -29,21 +32,34 @@ class PostCreationScreenState extends State<PostCreationScreen> {
     });
   }
 
-  Future<String> _uploadImage(File file) async {
-    final ref = FirebaseStorage.instance
-        .ref()
-        .child('post_images/${file.path.split('/').last}');
-    final UploadTask uploadTask = ref.putFile(file);
+  // Future<String> _uploadImage(File file) async {
+  //   final ref = FirebaseStorage.instance
+  //       .ref()
+  //       .child('post_images/${file.path.split('/').last}');
 
-    final snapshot = await uploadTask;
-    return await snapshot.ref.getDownloadURL();
-  }
+  //   uploadTask = ref.putFile(file);
+  //   log("task not done");
+  //   final snapshot = await uploadTask;
+  //   log("task done");
+  //   final url = await snapshot!.ref.getDownloadURL();
+  //   log(url);
+  //   return url;
+  // }
 
-  Future<void> _createPost() async {
+  Future<void> _createPost(String userName) async {
     final userId = FirebaseAuth.instance.currentUser?.uid;
-    if (userId == null) return;
+    if (userId == null ||
+        _textController.text.isEmpty ||
+        _selectedImages == null) {
+      return;
+    }
 
-    final List<String> imageUrls = [];
+    final List<String> imageUrls = [
+      "https://graphicsfamily.com/wp-content/uploads/edd/2022/08/Digital-marketing-expert-social-media-post-design-999x999.png",
+      "https://graphicsfamily.com/wp-content/uploads/edd/2023/01/Free-Photographer-Social-Media-Post-Design-Template-999x999.jpg",
+      "https://img.freepik.com/free-psd/digital-marketing-agency-corporate-social-media-post-template_120329-2030.jpg?t=st=1730554270~exp=1730557870~hmac=5a2e0ed3cc64cd9236ca778d034892ccba04d24f71cb248e0de2e1f3846f42d7&w=826"
+    ];
+
     for (final XFile image in _selectedImages!) {
       // Compressing images
       final compressedImage = await FlutterImageCompress.compressAndGetFile(
@@ -52,17 +68,22 @@ class PostCreationScreenState extends State<PostCreationScreen> {
         quality: 50,
       );
       if (compressedImage != null) {
-        final imageUrl = await _uploadImage(compressedImage as File);
-        imageUrls.add(imageUrl);
+        // Convert XFile to File
+        final File fileImage = File(compressedImage.path);
+        // final imageUrl = await _uploadImage(fileImage);
+
+        // imageUrls.add(imageUrl);
       }
     }
 
     final post = Post(
       id: FirebaseFirestore.instance.collection('posts').doc().id,
       userId: userId,
+      userName: userName,
       text: _textController.text,
       imageUrls: imageUrls,
     );
+    log("before calling bloc event");
     context.read<PostcreationBloc>().add(PostcreationEvent.createPost(post));
     goRouter.pop();
     // Navigate back after post creation
@@ -105,9 +126,16 @@ class PostCreationScreenState extends State<PostCreationScreen> {
                   )
                 : const SizedBox(),
             const Spacer(),
-            ElevatedButton(
-              onPressed: _createPost,
-              child: const Text('Create Post'),
+            BlocBuilder<AuthscreenBloc, AuthscreenState>(
+              builder: (context, state) {
+                final userName = state.user?.name;
+                return ElevatedButton(
+                  onPressed: () {
+                    _createPost(userName ?? "Guest User");
+                  },
+                  child: const Text('Create Post'),
+                );
+              },
             ),
           ],
         ),

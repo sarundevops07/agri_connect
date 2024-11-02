@@ -107,7 +107,6 @@ class SignUpScreen extends StatelessWidget {
   }
 
   signUp(BuildContext context) {
-    log("signUp button pressed");
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       final email = emailController.text;
       final password = passwordController.text;
@@ -115,7 +114,7 @@ class SignUpScreen extends StatelessWidget {
 
       context
           .read<AuthscreenBloc>()
-          .add(AuthscreenEvent.signUp(email, password, name));
+          .add(AuthscreenEvent.signUp(name, email, password));
     }
   }
 

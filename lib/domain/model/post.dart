@@ -3,12 +3,14 @@ class Post {
   final String userId;
   final String text;
   final List<String> imageUrls;
+  final String userName;
 
   Post({
     required this.id,
     required this.userId,
     required this.text,
     required this.imageUrls,
+    required this.userName,
   });
 
   Map<String, dynamic> toMap() {
@@ -17,6 +19,7 @@ class Post {
       'userId': userId,
       'text': text,
       'imageUrls': imageUrls,
+      'userName': userName,
     };
   }
 
@@ -26,6 +29,7 @@ class Post {
       userId: map['userId'],
       text: map['text'],
       imageUrls: List<String>.from(map['imageUrls']),
+      userName: map['userName'],
     );
   }
 }
