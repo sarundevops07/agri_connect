@@ -1,15 +1,19 @@
 import 'package:agri_connect/application/auth_screen/bloc/authscreen_bloc.dart';
 import 'package:agri_connect/application/home/widget/appbar_section.dart';
 import 'package:agri_connect/application/post/bloc/postcreation_bloc.dart';
-import 'package:agri_connect/config/routes.dart';
-import 'package:agri_connect/config/routes_name.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-class PostListScreen extends StatelessWidget {
+class PostListScreen extends StatefulWidget {
   const PostListScreen({super.key});
 
+  @override
+  State<PostListScreen> createState() => _PostListScreenState();
+}
+
+class _PostListScreenState extends State<PostListScreen> {
   @override
   Widget build(BuildContext context) {
     context.read<PostcreationBloc>().add(const PostcreationEvent.getPosts());

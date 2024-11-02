@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:agri_connect/domain/core/failures/main_failure.dart';
 import 'package:agri_connect/domain/model/post.dart';
+import 'package:agri_connect/domain/model/weather.dart';
 import 'package:agri_connect/domain/repository/post/post_repo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
@@ -18,7 +19,7 @@ class PostcreationBloc extends Bloc<PostcreationEvent, PostcreationState> {
   PostcreationBloc(this.postRepo) : super(PostcreationState.initial()) {
     on<CreatePost>((event, emit) async {
       emit(const PostcreationState(
-          errorMessage: null, posts: [], postCreated: false));
+          errorMessage: null, posts: [], postCreated: false, weather: null));
       final result = await postRepo.createPost(event.post);
       result.fold(
         (failure) {
@@ -34,7 +35,7 @@ class PostcreationBloc extends Bloc<PostcreationEvent, PostcreationState> {
     on<GetPosts>((event, emit) async {
       log("message from get posts Bloc");
       emit(const PostcreationState(
-          errorMessage: null, posts: [], postCreated: false));
+          errorMessage: null, posts: [], postCreated: false, weather: null));
 
       await emit.forEach<Either<MainFailures, List<Post>>>(
         postRepo.getPosts(),
@@ -52,6 +53,20 @@ class PostcreationBloc extends Bloc<PostcreationEvent, PostcreationState> {
           errorMessage: "An error occurred while fetching post.",
           posts: [],
         ),
+      );
+    });
+
+    on<GetWeather>((event, emit) async {
+      emit(const PostcreationState(
+          errorMessage: null, posts: [], postCreated: false, weather: null));
+      final results = await postRepo.getWeather();
+      results.fold(
+        (failure) {
+          emit(state.copyWith(errorMessage: failure.message));
+        },
+        (weather) {
+          emit(state.copyWith(weather: weather));
+        },
       );
     });
   }

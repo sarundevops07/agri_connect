@@ -20,18 +20,21 @@ mixin _$PostcreationEvent {
   TResult when<TResult extends Object?>({
     required TResult Function(Post post) createPost,
     required TResult Function() getPosts,
+    required TResult Function() getWeather,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(Post post)? createPost,
     TResult? Function()? getPosts,
+    TResult? Function()? getWeather,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Post post)? createPost,
     TResult Function()? getPosts,
+    TResult Function()? getWeather,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -39,18 +42,21 @@ mixin _$PostcreationEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(CreatePost value) createPost,
     required TResult Function(GetPosts value) getPosts,
+    required TResult Function(GetWeather value) getWeather,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(CreatePost value)? createPost,
     TResult? Function(GetPosts value)? getPosts,
+    TResult? Function(GetWeather value)? getWeather,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(CreatePost value)? createPost,
     TResult Function(GetPosts value)? getPosts,
+    TResult Function(GetWeather value)? getWeather,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -147,6 +153,7 @@ class _$CreatePostImpl implements CreatePost {
   TResult when<TResult extends Object?>({
     required TResult Function(Post post) createPost,
     required TResult Function() getPosts,
+    required TResult Function() getWeather,
   }) {
     return createPost(post);
   }
@@ -156,6 +163,7 @@ class _$CreatePostImpl implements CreatePost {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(Post post)? createPost,
     TResult? Function()? getPosts,
+    TResult? Function()? getWeather,
   }) {
     return createPost?.call(post);
   }
@@ -165,6 +173,7 @@ class _$CreatePostImpl implements CreatePost {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Post post)? createPost,
     TResult Function()? getPosts,
+    TResult Function()? getWeather,
     required TResult orElse(),
   }) {
     if (createPost != null) {
@@ -178,6 +187,7 @@ class _$CreatePostImpl implements CreatePost {
   TResult map<TResult extends Object?>({
     required TResult Function(CreatePost value) createPost,
     required TResult Function(GetPosts value) getPosts,
+    required TResult Function(GetWeather value) getWeather,
   }) {
     return createPost(this);
   }
@@ -187,6 +197,7 @@ class _$CreatePostImpl implements CreatePost {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(CreatePost value)? createPost,
     TResult? Function(GetPosts value)? getPosts,
+    TResult? Function(GetWeather value)? getWeather,
   }) {
     return createPost?.call(this);
   }
@@ -196,6 +207,7 @@ class _$CreatePostImpl implements CreatePost {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(CreatePost value)? createPost,
     TResult Function(GetPosts value)? getPosts,
+    TResult Function(GetWeather value)? getWeather,
     required TResult orElse(),
   }) {
     if (createPost != null) {
@@ -260,6 +272,7 @@ class _$GetPostsImpl implements GetPosts {
   TResult when<TResult extends Object?>({
     required TResult Function(Post post) createPost,
     required TResult Function() getPosts,
+    required TResult Function() getWeather,
   }) {
     return getPosts();
   }
@@ -269,6 +282,7 @@ class _$GetPostsImpl implements GetPosts {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(Post post)? createPost,
     TResult? Function()? getPosts,
+    TResult? Function()? getWeather,
   }) {
     return getPosts?.call();
   }
@@ -278,6 +292,7 @@ class _$GetPostsImpl implements GetPosts {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Post post)? createPost,
     TResult Function()? getPosts,
+    TResult Function()? getWeather,
     required TResult orElse(),
   }) {
     if (getPosts != null) {
@@ -291,6 +306,7 @@ class _$GetPostsImpl implements GetPosts {
   TResult map<TResult extends Object?>({
     required TResult Function(CreatePost value) createPost,
     required TResult Function(GetPosts value) getPosts,
+    required TResult Function(GetWeather value) getWeather,
   }) {
     return getPosts(this);
   }
@@ -300,6 +316,7 @@ class _$GetPostsImpl implements GetPosts {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(CreatePost value)? createPost,
     TResult? Function(GetPosts value)? getPosts,
+    TResult? Function(GetWeather value)? getWeather,
   }) {
     return getPosts?.call(this);
   }
@@ -309,6 +326,7 @@ class _$GetPostsImpl implements GetPosts {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(CreatePost value)? createPost,
     TResult Function(GetPosts value)? getPosts,
+    TResult Function(GetWeather value)? getWeather,
     required TResult orElse(),
   }) {
     if (getPosts != null) {
@@ -323,10 +341,122 @@ abstract class GetPosts implements PostcreationEvent {
 }
 
 /// @nodoc
+abstract class _$$GetWeatherImplCopyWith<$Res> {
+  factory _$$GetWeatherImplCopyWith(
+          _$GetWeatherImpl value, $Res Function(_$GetWeatherImpl) then) =
+      __$$GetWeatherImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$GetWeatherImplCopyWithImpl<$Res>
+    extends _$PostcreationEventCopyWithImpl<$Res, _$GetWeatherImpl>
+    implements _$$GetWeatherImplCopyWith<$Res> {
+  __$$GetWeatherImplCopyWithImpl(
+      _$GetWeatherImpl _value, $Res Function(_$GetWeatherImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PostcreationEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$GetWeatherImpl implements GetWeather {
+  const _$GetWeatherImpl();
+
+  @override
+  String toString() {
+    return 'PostcreationEvent.getWeather()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$GetWeatherImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Post post) createPost,
+    required TResult Function() getPosts,
+    required TResult Function() getWeather,
+  }) {
+    return getWeather();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Post post)? createPost,
+    TResult? Function()? getPosts,
+    TResult? Function()? getWeather,
+  }) {
+    return getWeather?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Post post)? createPost,
+    TResult Function()? getPosts,
+    TResult Function()? getWeather,
+    required TResult orElse(),
+  }) {
+    if (getWeather != null) {
+      return getWeather();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(CreatePost value) createPost,
+    required TResult Function(GetPosts value) getPosts,
+    required TResult Function(GetWeather value) getWeather,
+  }) {
+    return getWeather(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreatePost value)? createPost,
+    TResult? Function(GetPosts value)? getPosts,
+    TResult? Function(GetWeather value)? getWeather,
+  }) {
+    return getWeather?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreatePost value)? createPost,
+    TResult Function(GetPosts value)? getPosts,
+    TResult Function(GetWeather value)? getWeather,
+    required TResult orElse(),
+  }) {
+    if (getWeather != null) {
+      return getWeather(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetWeather implements PostcreationEvent {
+  const factory GetWeather() = _$GetWeatherImpl;
+}
+
+/// @nodoc
 mixin _$PostcreationState {
   String? get errorMessage => throw _privateConstructorUsedError;
   bool get postCreated => throw _privateConstructorUsedError;
   List<Post> get posts => throw _privateConstructorUsedError;
+  Weather? get weather => throw _privateConstructorUsedError;
 
   /// Create a copy of PostcreationState
   /// with the given fields replaced by the non-null parameter values.
@@ -341,7 +471,11 @@ abstract class $PostcreationStateCopyWith<$Res> {
           PostcreationState value, $Res Function(PostcreationState) then) =
       _$PostcreationStateCopyWithImpl<$Res, PostcreationState>;
   @useResult
-  $Res call({String? errorMessage, bool postCreated, List<Post> posts});
+  $Res call(
+      {String? errorMessage,
+      bool postCreated,
+      List<Post> posts,
+      Weather? weather});
 }
 
 /// @nodoc
@@ -362,6 +496,7 @@ class _$PostcreationStateCopyWithImpl<$Res, $Val extends PostcreationState>
     Object? errorMessage = freezed,
     Object? postCreated = null,
     Object? posts = null,
+    Object? weather = freezed,
   }) {
     return _then(_value.copyWith(
       errorMessage: freezed == errorMessage
@@ -376,6 +511,10 @@ class _$PostcreationStateCopyWithImpl<$Res, $Val extends PostcreationState>
           ? _value.posts
           : posts // ignore: cast_nullable_to_non_nullable
               as List<Post>,
+      weather: freezed == weather
+          ? _value.weather
+          : weather // ignore: cast_nullable_to_non_nullable
+              as Weather?,
     ) as $Val);
   }
 }
@@ -388,7 +527,11 @@ abstract class _$$InitialImplCopyWith<$Res>
       __$$InitialImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? errorMessage, bool postCreated, List<Post> posts});
+  $Res call(
+      {String? errorMessage,
+      bool postCreated,
+      List<Post> posts,
+      Weather? weather});
 }
 
 /// @nodoc
@@ -407,6 +550,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? errorMessage = freezed,
     Object? postCreated = null,
     Object? posts = null,
+    Object? weather = freezed,
   }) {
     return _then(_$InitialImpl(
       errorMessage: freezed == errorMessage
@@ -421,6 +565,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value._posts
           : posts // ignore: cast_nullable_to_non_nullable
               as List<Post>,
+      weather: freezed == weather
+          ? _value.weather
+          : weather // ignore: cast_nullable_to_non_nullable
+              as Weather?,
     ));
   }
 }
@@ -431,7 +579,8 @@ class _$InitialImpl implements _Initial {
   const _$InitialImpl(
       {required this.errorMessage,
       required this.postCreated,
-      required final List<Post> posts})
+      required final List<Post> posts,
+      required this.weather})
       : _posts = posts;
 
   @override
@@ -447,8 +596,11 @@ class _$InitialImpl implements _Initial {
   }
 
   @override
+  final Weather? weather;
+
+  @override
   String toString() {
-    return 'PostcreationState(errorMessage: $errorMessage, postCreated: $postCreated, posts: $posts)';
+    return 'PostcreationState(errorMessage: $errorMessage, postCreated: $postCreated, posts: $posts, weather: $weather)';
   }
 
   @override
@@ -460,12 +612,13 @@ class _$InitialImpl implements _Initial {
                 other.errorMessage == errorMessage) &&
             (identical(other.postCreated, postCreated) ||
                 other.postCreated == postCreated) &&
-            const DeepCollectionEquality().equals(other._posts, _posts));
+            const DeepCollectionEquality().equals(other._posts, _posts) &&
+            (identical(other.weather, weather) || other.weather == weather));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, errorMessage, postCreated,
-      const DeepCollectionEquality().hash(_posts));
+      const DeepCollectionEquality().hash(_posts), weather);
 
   /// Create a copy of PostcreationState
   /// with the given fields replaced by the non-null parameter values.
@@ -480,7 +633,8 @@ abstract class _Initial implements PostcreationState {
   const factory _Initial(
       {required final String? errorMessage,
       required final bool postCreated,
-      required final List<Post> posts}) = _$InitialImpl;
+      required final List<Post> posts,
+      required final Weather? weather}) = _$InitialImpl;
 
   @override
   String? get errorMessage;
@@ -488,6 +642,8 @@ abstract class _Initial implements PostcreationState {
   bool get postCreated;
   @override
   List<Post> get posts;
+  @override
+  Weather? get weather;
 
   /// Create a copy of PostcreationState
   /// with the given fields replaced by the non-null parameter values.

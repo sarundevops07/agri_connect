@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:agri_connect/application/post/bloc/postcreation_bloc.dart';
 import 'package:agri_connect/config/routes.dart';
 import 'package:agri_connect/config/routes_name.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -46,6 +48,7 @@ class ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    context.read<PostcreationBloc>().add(const PostcreationEvent.getWeather());
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profile Page"),
@@ -65,60 +68,115 @@ class ProfilePageState extends State<ProfilePage> {
                     height: 290,
                     width: 450,
                     child: Card(
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.logout,
-                                    color: Colors.red,
+                      child: Stack(
+                        children: [
+                          BlocBuilder<PostcreationBloc, PostcreationState>(
+                            builder: (context, state) {
+                              final weather = state.weather;
+                              final temperature =
+                                  weather?.currentWeather?.tempC;
+                              final condition =
+                                  weather?.currentWeather?.condition?.text;
+
+                              return Positioned(
+                                top: 10,
+                                left: 0,
+                                child: Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(
+                                        0.8), // Semi-transparent background
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 5,
+                                        offset: const Offset(
+                                            0, 3), // changes position of shadow
+                                      ),
+                                    ],
                                   ),
-                                  onPressed: _logout,
-                                  tooltip: 'Logout',
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Weather",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      // Replace these static values with actual weather data
+                                      Text(" $temperature°C",
+                                          style: const TextStyle(fontSize: 14)),
+                                      Text(" $condition",
+                                          style: const TextStyle(fontSize: 14)),
+                                    ],
+                                  ),
                                 ),
-                              ],
-                            ),
-                            Stack(
-                              alignment: Alignment.center,
+                              );
+                            },
+                          ),
+                          Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                CircleAvatar(
-                                  radius: 70,
-                                  backgroundImage: imagePath != null
-                                      ? FileImage(File(imagePath!))
-                                      : null,
-                                  child: imagePath == null
-                                      ? const Icon(Icons.person, size: 70)
-                                      : null,
-                                ),
-                                if (imagePath == null)
-                                  Positioned(
-                                    right: 0,
-                                    bottom: 0,
-                                    child: IconButton(
-                                      icon: const Icon(Icons.add_a_photo),
-                                      onPressed: _pickImage,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.logout,
+                                        color: Colors.red,
+                                      ),
+                                      onPressed: _logout,
+                                      tooltip: 'Logout',
                                     ),
-                                  ),
+                                  ],
+                                ),
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 70,
+                                      backgroundImage: imagePath != null
+                                          ? FileImage(File(imagePath!))
+                                          : null,
+                                      child: imagePath == null
+                                          ? const Icon(Icons.person, size: 70)
+                                          : null,
+                                    ),
+                                    if (imagePath == null)
+                                      Positioned(
+                                        right: 0,
+                                        bottom: 0,
+                                        child: IconButton(
+                                          icon: const Icon(Icons.add_a_photo),
+                                          onPressed: _pickImage,
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  user?.displayName ?? "Not provided",
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  user?.email ?? "Not provided",
+                                  style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ],
                             ),
-                            const SizedBox(height: 10),
-                            Text(
-                              user?.displayName ?? "Not provided",
-                              style: const TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              user?.email ?? "Not provided",
-                              style: const TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

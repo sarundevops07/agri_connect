@@ -4,4 +4,5 @@ part of 'postcreation_bloc.dart';
 class PostcreationEvent with _$PostcreationEvent {
   const factory PostcreationEvent.createPost(Post post) = CreatePost;
   const factory PostcreationEvent.getPosts() = GetPosts;
+  const factory PostcreationEvent.getWeather() = GetWeather;
 }

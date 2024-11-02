@@ -1,8 +1,13 @@
+import 'dart:convert';
 import 'dart:developer';
 
+import 'package:agri_connect/domain/core/api_key.dart';
 import 'package:agri_connect/domain/core/failures/main_failure.dart';
 import 'package:agri_connect/domain/model/post.dart';
+import 'package:agri_connect/domain/model/weather.dart';
 import 'package:agri_connect/domain/repository/post/post_repo.dart';
+
+import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
@@ -35,6 +40,26 @@ class PostRepoImpl implements PostRepo {
       });
     } catch (e) {
       yield Left(MainFailures.serverFailure());
+    }
+  }
+
+  @override
+  Future<Either<MainFailures, Weather>> getWeather() async {
+    try {
+      final response = await http.get(Uri.parse(baseUrl));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonData = jsonDecode(response.body);
+        log(jsonData.toString());
+        final weather = Weather.fromJson(jsonData);
+        log(weather.toString());
+        return Right(weather);
+      } else {
+        return Left(MainFailures.serverFailure()); // Failure case
+      }
+    } catch (e) {
+      log("erroooorrr$e");
+      return Left(MainFailures.serverFailure()); // Handle exceptions
     }
   }
 }
